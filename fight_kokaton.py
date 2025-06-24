@@ -144,6 +144,21 @@ class Bomb:
         screen.blit(self.img, self.rct)
 
 
+class Score:
+    def __init__(self):
+        self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
+        self.color = (0, 0, 255)
+        self.score = 0
+        self.img = self.fonto.render(f"Score: {self.score}", True, self.color)
+        self.rct = self.img.get_rect()
+        self.rct.center = (100, HEIGHT - 50)
+
+    def update(self, screen: pg.Surface):
+        self.img = self.fonto.render(f"Score: {self.score}", True, self.color)
+        screen.blit(self.img, self.rct)
+
+
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))     
@@ -152,6 +167,7 @@ def main():
     # bomb = Bomb((255, 0, 0), 10) # 変更行: 単一のBombインスタンスの生成をコメントアウト
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)] # 追加行: 複数のBombインスタンスをリストで生成 
     beam = None  # ゲーム初期化時にはビームは存在しない
+    score=Score()
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -185,6 +201,7 @@ def main():
                         beam = None # 追加行: ビームを消す 
                         bombs[i] = None # 追加行: 衝突した爆弾をリストからNoneにする 
                         bird.change_img(6,screen) # 追加行: こうかとんの画像を切り替える 
+                        score.score+=1
                         break # 追加行: ビームは一つしかないので、衝突したらループを抜ける
 
         # 追加行: 爆弾リストからNoneの要素を削除して更新 
@@ -192,6 +209,7 @@ def main():
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
+        score.update(screen)
         
         if beam is not None:
             beam.update(screen)
