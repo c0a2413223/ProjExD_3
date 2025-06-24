@@ -229,10 +229,10 @@ def main():
         for bomb in bombs:
            bomb.update(screen)
 
-        for ex in explosions: #追加3
+        for ex in explosions: 
             ex.update(screen)
 
-        score.update(screen) #追加1
+        score.update(screen) 
         pg.display.update()
         tmr += 1
         clock.tick(50)
